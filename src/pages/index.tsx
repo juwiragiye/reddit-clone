@@ -14,9 +14,6 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Box bg="tomato" w="100%" p={4} color="white">
-        This is the Box
-      </Box>
     </>
   );
 }
