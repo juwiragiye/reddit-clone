@@ -2,18 +2,33 @@ import { authModalState } from "@/atoms/authModalAtom";
 import { Button, Flex, Input, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useSetRecoilState } from "recoil";
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { auth } from "@/services/firebase/clientApp";
 
 type SingUpProps = {};
 
 const SingUp: React.FC<SingUpProps> = () => {
-  const [SingUpForm, setSingUpForm] = useState({
+  const setModalView = useSetRecoilState(authModalState);
+  const [singUpForm, setSingUpForm] = useState({
     email: "",
     password: "",
     confirmPassword: "",
   });
-  const setModalView = useSetRecoilState(authModalState);
+  const [error, setError] = useState("");
+  const [createUserWithEmailAndPassword, user, loading, userError] =
+    useCreateUserWithEmailAndPassword(auth);
 
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    setError("");
+    if (singUpForm.confirmPassword !== singUpForm.password) {
+      setError("Passwords do not match");
+      return;
+    }
+    // createUserWithEmailAndPassword(
+    //   singUpForm.email,
+    //   singUpForm.confirmPassword
+    // );
+  };
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSingUpForm((prev) => ({
       ...prev,
@@ -98,6 +113,9 @@ const SingUp: React.FC<SingUpProps> = () => {
           borderColor: "transparent",
         }}
       />
+      <Text fontSize={"sm"} color={"red"} m={2} textAlign={"center"}>
+        {error}
+      </Text>
       <Button
         type="submit"
         width={"100%"}

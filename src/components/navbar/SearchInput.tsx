@@ -1,5 +1,4 @@
 import { Flex, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
-import { color } from "framer-motion";
 import { Search, SearchIcon } from "lucide-react";
 import React from "react";
 
@@ -11,10 +10,9 @@ const SearchInput: React.FC<SearchInputProps> = () => {
   return (
     <Flex flexGrow={1}>
       <InputGroup alignItems={"baseline"}>
-        <InputLeftElement
-          pointerEvents="none"
-          children={<SearchIcon color="gray" strokeWidth={1} spacing={3} />}
-        />
+        <InputLeftElement pointerEvents="none">
+          <SearchIcon color="gray" strokeWidth={1} spacing={3} />
+        </InputLeftElement>
         <Input
           type="text"
           placeholder="Search Reddit"

@@ -20,9 +20,8 @@ const firebaseConfig = {
 
 // Initialize Firebase FOR SSR
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-const analytics = getAnalytics(app);
 const firestore = getFirestore(app);
 const storage = getStorage(app);
 const auth = getAuth(app);
 
-export { app, auth, firestore, storage, analytics };
+export { app, auth, firestore, storage };
