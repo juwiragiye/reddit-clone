@@ -3,9 +3,7 @@ import React from "react";
 import AuthButtons from "./AuthButtons";
 import AuthModal from "@/components/modal/auth/AuthModal";
 
-type RightContentProps = {
-  // user:
-};
+type RightContentProps = {};
 
 const RightContent: React.FC<RightContentProps> = () => {
   return (

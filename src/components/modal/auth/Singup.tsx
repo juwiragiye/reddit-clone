@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "@/services/firebase/clientApp";
+import { FIREBASE_ERRORS } from "@/services/firebase/errors";
 
 type SingUpProps = {};
 
@@ -18,16 +19,19 @@ const SingUp: React.FC<SingUpProps> = () => {
   const [createUserWithEmailAndPassword, user, loading, userError] =
     useCreateUserWithEmailAndPassword(auth);
 
-  const onSubmit = () => {
-    setError("");
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (error) setError("");
+
     if (singUpForm.confirmPassword !== singUpForm.password) {
       setError("Passwords do not match");
       return;
     }
-    // createUserWithEmailAndPassword(
-    //   singUpForm.email,
-    //   singUpForm.confirmPassword
-    // );
+
+    createUserWithEmailAndPassword(
+      singUpForm.email,
+      singUpForm.confirmPassword
+    );
   };
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSingUpForm((prev) => ({
@@ -113,15 +117,20 @@ const SingUp: React.FC<SingUpProps> = () => {
           borderColor: "transparent",
         }}
       />
+
       <Text fontSize={"sm"} color={"red"} m={2} textAlign={"center"}>
-        {error}
+        {error ||
+          (userError &&
+            FIREBASE_ERRORS[userError.message as keyof typeof FIREBASE_ERRORS])}
       </Text>
+
       <Button
         type="submit"
         width={"100%"}
         bg="red.500"
         height={"40px"}
         _hover={{ bg: "red.400" }}
+        isLoading={loading}
       >
         Sign Up
       </Button>
